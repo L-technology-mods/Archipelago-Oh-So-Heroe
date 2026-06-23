@@ -59,7 +59,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Prepare local build references
-        shell: pwsh
+        shell: powershell
         run: |
           $ErrorActionPreference = 'Stop'
 
@@ -88,11 +88,11 @@ jobs:
           "@ | Set-Content -LiteralPath 'Directory.Build.local.props' -Encoding UTF8
 
       - name: Build mod
-        shell: pwsh
+        shell: powershell
         run: dotnet build -c Release
 
       - name: Build client zip
-        shell: pwsh
+        shell: powershell
         run: |
           $ErrorActionPreference = 'Stop'
 
