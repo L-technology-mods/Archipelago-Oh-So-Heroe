@@ -1,0 +1,17 @@
+{
+  "detection": {
+    "hook_type": "_0G.InventoryManager",
+    "hook_method": "AddItemInstanceCollected",
+    "ignore_archipelago_grants": true,
+    "send_once_per_instance_id": true
+  },
+  "checks": [
+    { "location": "Pickup_TreewishForest_DamageNumbersAbility_0", "instance_id": 0, "item_id": 100, "item": "DamageNumbersAbility", "zone": "TreewishForest" },
+    { "location": "Pickup_TreewishForest_MaxHPUp_100003", "instance_id": 100003, "item_id": 901, "item": "MaxHPUp", "zone": "TreewishForest" },
+    { "location": "Pickup_TreewishForest_SensualBodyPaint_100001", "instance_id": 100001, "item_id": 201, "item": "SensualBodyPaint", "zone": "TreewishForest" },
+    { "location": "Pickup_TreewishForest_SlideAbility_100002", "instance_id": 100002, "item_id": 101, "item": "SlideAbility", "zone": "TreewishForest" },
+    { "location": "Pickup_BraskJungle_LeatherBelt_130001", "instance_id": 130001, "item_id": 202, "item": "LeatherBelt", "zone": "BraskJungle" },
+    { "location": "Pickup_BraskJungle_MaxSPUp_130002", "instance_id": 130002, "item_id": 902, "item": "MaxSPUp", "zone": "BraskJungle" },
+    { "location": "Pickup_LoodCityWestAvenue_MaxHPUp_170001", "instance_id": 170001, "item_id": 901, "item": "MaxHPUp", "zone": "LoodCityWestAvenue" }
+  ]
+}

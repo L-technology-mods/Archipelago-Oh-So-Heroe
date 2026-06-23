@@ -1,0 +1,29 @@
+# Build outputs
+bin/
+obj/
+
+# Local build/package folders
+build/
+release-package/
+*.zip
+*.apworld
+
+# Local BepInEx reference binaries.
+# See lib/BepInEx/core/README.md.
+lib/**/*.dll
+
+# Local runtime/config files
+/BepInEx/
+/data/
+*.log
+*.jsonl.tmp
+Directory.Build.local.props
+
+# Editor/OS files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+Thumbs.db
+Desktop.ini

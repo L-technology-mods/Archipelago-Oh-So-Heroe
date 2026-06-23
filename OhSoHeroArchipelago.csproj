@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="Directory.Build.local.props" Condition="Exists('Directory.Build.local.props')" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>OhSoHeroArchipelago</AssemblyName>
+    <RootNamespace>OhSoHeroArchipelago</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx">
+      <HintPath>lib\BepInEx\core\BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>lib\BepInEx\core\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(OhSoHeroGameDir)\OhSoHero_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Fungus">
+      <HintPath>$(OhSoHeroGameDir)\OhSoHero_Data\Managed\Fungus.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(OhSoHeroGameDir)\OhSoHero_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(OhSoHeroGameDir)\OhSoHero_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(OhSoHeroGameDir)\OhSoHero_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.1" />
+  </ItemGroup>
+</Project>

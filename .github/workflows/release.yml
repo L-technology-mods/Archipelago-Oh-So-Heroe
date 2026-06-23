@@ -1,0 +1,67 @@
+name: Build release assets
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-release-assets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build APWorld
+        shell: python
+        run: |
+          from pathlib import Path
+          from zipfile import ZIP_DEFLATED, ZipFile
+
+          root = Path.cwd()
+          source = root / "apworld" / "oh_so_hero"
+          dist = root / "dist"
+          output = dist / "oh_so_hero.apworld"
+
+          dist.mkdir(exist_ok=True)
+          if output.exists():
+              output.unlink()
+
+          with ZipFile(output, "w", ZIP_DEFLATED) as archive:
+              for path in source.rglob("*"):
+                  if path.is_file():
+                      archive.write(path, path.relative_to(source.parent))
+
+      - name: Build release zip
+        shell: python
+        run: |
+          from pathlib import Path
+          from zipfile import ZIP_DEFLATED, ZipFile
+
+          root = Path.cwd()
+          dist = root / "dist"
+          package = dist / "OhSoHeroArchipelago-Release.zip"
+
+          files = [
+              (dist / "oh_so_hero.apworld", "oh_so_hero.apworld"),
+              (root / "release" / "README_INSTALLATION.md", "README_INSTALLATION.md"),
+              (root / "release" / "CHANGELOG.md", "CHANGELOG.md"),
+          ]
+
+          with ZipFile(package, "w", ZIP_DEFLATED) as archive:
+              for source, target in files:
+                  archive.write(source, target)
+
+      - name: Upload release assets
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/oh_so_hero.apworld
+            dist/OhSoHeroArchipelago-Release.zip
+          fail_on_unmatched_files: true

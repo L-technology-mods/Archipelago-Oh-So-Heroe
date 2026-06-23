@@ -1,0 +1,107 @@
+{
+  "starting_zone": "SheoIslandsBeach",
+  "active_zones": [
+    "SheoIslandsBeach",
+    "AliSurfShack",
+    "TreewishForest",
+    "SoutheastBeach",
+    "CasHouse",
+    "BraskJungle",
+    "BraskPalace",
+    "ForbiddenBayou",
+    "HirotoDojo",
+    "DojoSecretBasement",
+    "BayouCabin",
+    "DyabalCabin",
+    "SmolBeach",
+    "LoodCityWestAvenue",
+    "OctoSushiPlace",
+    "SuperImportTechAndMore",
+    "LoodCityPark"
+  ],
+  "zone_rules": [
+    { "zone": "SheoIslandsBeach", "requires": [] },
+    { "zone": "AliSurfShack", "optional": true, "requires": ["Access_AliSurfShack"] },
+    { "zone": "TreewishForest", "requires": ["Access_TreewishForest"] },
+    { "zone": "SoutheastBeach", "requires": ["Access_TreewishForest", "Access_SoutheastBeach"] },
+    { "zone": "CasHouse", "requires": ["Access_TreewishForest", "Access_SoutheastBeach", "Access_CasHouse"] },
+    {
+      "zone": "BraskJungle",
+      "requires": [
+        "Access_TreewishForest",
+        "Access_SoutheastBeach",
+        "Access_CasHouse",
+        "ButtStompAbility",
+        "Access_BraskJungle"
+      ]
+    },
+    {
+      "zone": "BraskPalace",
+      "optional": true,
+      "requires": ["Access_BraskJungle", "Access_BraskPalace", "ButtStompAbility", "SlideAbility"]
+    },
+    {
+      "zone": "ForbiddenBayou",
+      "requires": [
+        "Access_BraskJungle",
+        "ButtStompAbility",
+        "SlideAbility",
+        "Access_ForbiddenBayou"
+      ]
+    },
+    {
+      "zone": "HirotoDojo",
+      "optional": true,
+      "requires": ["Access_ForbiddenBayou", "Access_HirotoDojo", "HirotoDojoKey"]
+    },
+    {
+      "zone": "DojoSecretBasement",
+      "optional": true,
+      "requires": ["Access_HirotoDojo", "Access_DojoSecretBasement", "HirotoDojoKey"]
+    },
+    {
+      "zone": "BayouCabin",
+      "optional": true,
+      "requires": ["Access_ForbiddenBayou", "Access_BayouCabin"]
+    },
+    {
+      "zone": "DyabalCabin",
+      "optional": true,
+      "requires": ["Access_ForbiddenBayou", "Access_DyabalCabin"]
+    },
+    {
+      "zone": "SmolBeach",
+      "requires": ["Access_ForbiddenBayou", "ButtStompAbility", "SlideAbility", "Access_SmolBeach"]
+    },
+    {
+      "zone": "LoodCityWestAvenue",
+      "requires": ["Access_SmolBeach", "Access_LoodCityWestAvenue"]
+    },
+    {
+      "zone": "OctoSushiPlace",
+      "optional": true,
+      "requires": ["Access_LoodCityWestAvenue", "Access_OctoSushiPlace"]
+    },
+    {
+      "zone": "SuperImportTechAndMore",
+      "optional": true,
+      "requires": ["Access_LoodCityWestAvenue", "Access_SuperImportTechAndMore"]
+    },
+    {
+      "zone": "LoodCityPark",
+      "requires": ["Access_LoodCityWestAvenue", "Access_LoodCityPark"]
+    }
+  ],
+  "goals": {
+    "defeat_bates": {
+      "event_flag": "Bates01_Defeated",
+      "event_flag_id": 85,
+      "requires_zone": "LoodCityPark"
+    },
+    "collect_all_scenes": {
+      "location_catalog": "archipelago_locations.json",
+      "excluded_location_prefixes": ["Bates"],
+      "required_location_count": 158
+    }
+  }
+}

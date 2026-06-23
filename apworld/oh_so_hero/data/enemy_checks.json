@@ -1,0 +1,22 @@
+{
+  "detection": {
+    "hook_type": "OSH.OhSoDamageTaker",
+    "hook_method": "OnKnockedOut",
+    "send_once_per_enemy_type": true
+  },
+  "checks": [
+    { "location": "Defeat_Daku", "enemy": "Daku", "zone": "SheoIslandsBeach" },
+    { "location": "Defeat_Amaru", "enemy": "Amaru", "zone": "SheoIslandsBeach" },
+    { "location": "Defeat_Lonoe", "enemy": "Lonoe", "zone": "TreewishForest" },
+    { "location": "Defeat_Goliath", "enemy": "Goliath", "zone": "TreewishForest" },
+    { "location": "Defeat_Blowey", "enemy": "Blowey", "zone": "ForbiddenBayou" },
+    { "location": "Defeat_Gatis", "enemy": "Gatis", "zone": "ForbiddenBayou" },
+    { "location": "Defeat_ODeere", "enemy": "ODeere", "zone": "ForbiddenBayou" },
+    { "location": "Defeat_Stier", "enemy": "Stier", "zone": "LoodCityWestAvenue" },
+    { "location": "Defeat_Signal", "enemy": "Signal", "zone": "LoodCityWestAvenue" },
+    { "location": "Defeat_Bax", "enemy": "Bax", "zone": "HirotoDojo" },
+    { "location": "Defeat_Puca", "enemy": "Puca", "zone": "HirotoDojo" },
+    { "location": "Defeat_Haya", "enemy": "Haya", "zone": "HirotoDojo" },
+    { "location": "Defeat_Bates", "enemy": "Bates", "zone": "LoodCityPark", "event_flag": "Bates01_Defeated", "event_flag_id": 85 }
+  ]
+}
