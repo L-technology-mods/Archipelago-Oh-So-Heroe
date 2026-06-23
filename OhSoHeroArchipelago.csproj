@@ -19,23 +19,23 @@
       <Private>false</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>$(OhSoHeroGameDir)\OhSoHero_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(OhSoHeroGameDir)/OhSoHero_Data/Managed/Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Fungus">
-      <HintPath>$(OhSoHeroGameDir)\OhSoHero_Data\Managed\Fungus.dll</HintPath>
+      <HintPath>$(OhSoHeroGameDir)/OhSoHero_Data/Managed/Fungus.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(OhSoHeroGameDir)\OhSoHero_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(OhSoHeroGameDir)/OhSoHero_Data/Managed/UnityEngine.CoreModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>$(OhSoHeroGameDir)\OhSoHero_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>$(OhSoHeroGameDir)/OhSoHero_Data/Managed/UnityEngine.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>$(OhSoHeroGameDir)\OhSoHero_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>$(OhSoHeroGameDir)/OhSoHero_Data/Managed/UnityEngine.PhysicsModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  build-release-assets:
+  build-apworld:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,6 +37,122 @@ jobs:
                   if path.is_file():
                       archive.write(path, path.relative_to(source.parent))
 
+      - name: Upload APWorld artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apworld
+          path: dist/oh_so_hero.apworld
+          if-no-files-found: error
+
+  build-client:
+    runs-on: [self-hosted, Windows]
+    env:
+      OH_SO_HERO_GAME_DIR: ${{ vars.OH_SO_HERO_GAME_DIR || 'D:\SteamLibrary\steamapps\common\Oh So Hero!' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Prepare local build references
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $gameDir = $env:OH_SO_HERO_GAME_DIR
+          $managedDir = Join-Path $gameDir 'OhSoHero_Data\Managed'
+          $bepInExCoreDir = Join-Path $gameDir 'BepInEx\core'
+
+          if (-not (Test-Path -LiteralPath $managedDir)) {
+            throw "Missing game managed directory: $managedDir"
+          }
+          if (-not (Test-Path -LiteralPath $bepInExCoreDir)) {
+            throw "Missing BepInEx core directory: $bepInExCoreDir"
+          }
+
+          $localCoreDir = Join-Path $PWD 'lib\BepInEx\core'
+          New-Item -ItemType Directory -Path $localCoreDir -Force | Out-Null
+          Copy-Item -LiteralPath (Join-Path $bepInExCoreDir 'BepInEx.dll') -Destination $localCoreDir -Force
+          Copy-Item -LiteralPath (Join-Path $bepInExCoreDir '0Harmony.dll') -Destination $localCoreDir -Force
+
+          @"
+          <Project>
+            <PropertyGroup>
+              <OhSoHeroGameDir>$gameDir</OhSoHeroGameDir>
+            </PropertyGroup>
+          </Project>
+          "@ | Set-Content -LiteralPath 'Directory.Build.local.props' -Encoding UTF8
+
+      - name: Build mod
+        shell: pwsh
+        run: dotnet build -c Release
+
+      - name: Build client zip
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $gameDir = $env:OH_SO_HERO_GAME_DIR
+          $dist = Join-Path $PWD 'dist'
+          $stage = Join-Path $PWD 'build\client'
+          $client = Join-Path $stage 'OhSoHeroArchipelago-Client'
+          $pluginDir = Join-Path $client 'BepInEx\plugins\OhSoHeroArchipelago'
+          $coreTarget = Join-Path $client 'BepInEx\core'
+          $packageDir = Join-Path $env:USERPROFILE '.nuget\packages\archipelago.multiclient.net\6.7.1\lib\netstandard2.0'
+          $output = Join-Path $dist 'OhSoHeroArchipelago-Client.zip'
+
+          Remove-Item -LiteralPath $stage,$dist -Recurse -Force -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Path $pluginDir,$coreTarget,$dist -Force | Out-Null
+
+          foreach ($file in '.doorstop_version','doorstop_config.ini','winhttp.dll','changelog.txt') {
+            $source = Join-Path $gameDir $file
+            if (Test-Path -LiteralPath $source) {
+              Copy-Item -LiteralPath $source -Destination $client -Force
+            }
+          }
+
+          Copy-Item -Path (Join-Path $gameDir 'BepInEx\core\*') -Destination $coreTarget -Recurse -Force
+          Copy-Item -LiteralPath 'bin\Release\netstandard2.1\OhSoHeroArchipelago.dll' -Destination $pluginDir -Force
+          Copy-Item -LiteralPath (Join-Path $packageDir 'Archipelago.MultiClient.Net.dll') -Destination $pluginDir -Force
+          Copy-Item -LiteralPath (Join-Path $packageDir 'Newtonsoft.Json.dll') -Destination $pluginDir -Force
+
+          tar -a -c -f $output -C $client .
+          Get-Item -LiteralPath $output
+
+      - name: Upload client artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: client
+          path: dist/OhSoHeroArchipelago-Client.zip
+          if-no-files-found: error
+
+  publish-release:
+    if: github.ref_type == 'tag'
+    needs:
+      - build-apworld
+      - build-client
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download APWorld artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: apworld
+          path: dist
+
+      - name: Download client artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: client
+          path: dist
+
       - name: Build release zip
         shell: python
         run: |
@@ -49,6 +165,7 @@ jobs:
 
           files = [
               (dist / "oh_so_hero.apworld", "oh_so_hero.apworld"),
+              (dist / "OhSoHeroArchipelago-Client.zip", "OhSoHeroArchipelago-Client.zip"),
               (root / "release" / "README_INSTALLATION.md", "README_INSTALLATION.md"),
               (root / "release" / "CHANGELOG.md", "CHANGELOG.md"),
           ]
@@ -58,10 +175,10 @@ jobs:
                   archive.write(source, target)
 
       - name: Upload release assets
-        if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
         with:
           files: |
             dist/oh_so_hero.apworld
+            dist/OhSoHeroArchipelago-Client.zip
             dist/OhSoHeroArchipelago-Release.zip
           fail_on_unmatched_files: true
