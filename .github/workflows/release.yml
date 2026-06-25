@@ -120,7 +120,7 @@ jobs:
           Copy-Item -LiteralPath (Join-Path $packageDir 'Archipelago.MultiClient.Net.dll') -Destination $pluginDir -Force
           Copy-Item -LiteralPath (Join-Path $packageDir 'Newtonsoft.Json.dll') -Destination $pluginDir -Force
 
-          tar -a -c -f $output -C $client .
+          Compress-Archive -LiteralPath (Get-ChildItem -LiteralPath $client -Force).FullName -DestinationPath $output -CompressionLevel Optimal
           Get-Item -LiteralPath $output
 
       - name: Upload client artifact
